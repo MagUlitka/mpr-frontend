@@ -26,4 +26,9 @@ public class StudentResource {
             return ResponseEntity.ok(student);
         } else return ResponseEntity.notFound().build();
     }
+
+    @DeleteMapping
+    public void deleteByName(String name){
+        studentService.deleteByName(name);
+    }
 }

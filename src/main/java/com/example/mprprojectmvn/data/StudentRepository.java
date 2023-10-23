@@ -1,35 +1,20 @@
 package com.example.mprprojectmvn.data;
 
-import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-@Service
-public class StudentRepository {
+@Repository
+public interface StudentRepository extends CrudRepository<Student, UUID> {
+    @Modifying
+    @Transactional
+    void deleteByName(String name);
 
-    public StudentRepository() {
-        var student = new Student(UUID.fromString("6f16f034-de79-47ad-b05f-77ec29b7a453"),"Magdalena", StudentUnit.GDANSK, 3L);
-        students.add(student);
-    }
-    private final List<Student> students = new ArrayList<>();
-
-    public void saveStudent(Student student){
-        students.add(student);
-    }
-    public Student getStudentById(UUID id){
-        return students.stream()
-                .filter(it -> it.id().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public Long getMaxIndex(){
-        return students.stream()
-                .map(Student::index)
-                .max(Comparator.naturalOrder())
-                .orElse(0L);
-    }
+    @Query("select max(s.index) from Student s")
+    Optional<Long> getMaxIndex();
 }
