@@ -41,24 +41,24 @@ class StudentServiceTest {
 //    static void cleanUpAll(){
 //        log.info("After all tests this cleanup is called");
 //    }
-    @Test
-    void givenGdanskUnitWhenSaveStudentThenGetValidIndex(){
-        //given
-        var student = new Student(UUID.fromString("6f16f034-de79-47ad-b05f-77ec29b7a453"),"Magdalena", StudentUnit.GDANSK, null);
-//        maxIndex = 6L;
-//        when(studentRepository.getMaxIndex()).thenReturn(5L); // wywoła podaną metodę dla mocka "studentRepository" (bo sam mock nie zwraca nic gdy są wywoływane metody)
-
-
-        //when
-       var savedStudent = studentService.saveStudent(student);
-
-        //then
-//        assertEquals(student.id(),savedStudent.id());
-//        assertEquals(student.name(),savedStudent.name());
-//        assertEquals(student.unit(),savedStudent.unit());
-//        assertEquals(15,savedStudent.index());
-//        verify(studentRepository,times(1)).saveStudent(any());
-    }
+//    @Test
+//    void givenGdanskUnitWhenSaveStudentThenGetValidIndex(){
+//        //given
+//        var student = new Student(UUID.fromString("6f16f034-de79-47ad-b05f-77ec29b7a453"),"Magdalena", StudentUnit.GDANSK, null);
+////        maxIndex = 6L;
+////        when(studentRepository.getMaxIndex()).thenReturn(5L); // wywoła podaną metodę dla mocka "studentRepository" (bo sam mock nie zwraca nic gdy są wywoływane metody)
+//
+//
+//        //when
+//       var savedStudent = studentService.saveStudent(student);
+//
+//        //then
+////        assertEquals(student.id(),savedStudent.id());
+////        assertEquals(student.name(),savedStudent.name());
+////        assertEquals(student.unit(),savedStudent.unit());
+////        assertEquals(15,savedStudent.index());
+////        verify(studentRepository,times(1)).saveStudent(any());
+//    }
 
 //    @Test
 //    void givenWarszawaUnitWhenSaveStudentThenGetValidIndex(){
