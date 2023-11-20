@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -30,5 +31,10 @@ public class StudentResource {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteByName(String name){
         studentService.deleteByName(name);
+    }
+
+    @GetMapping
+    public List<StudentDto> getStudentByName(@RequestParam String name){
+        return studentService.getStudentByName(name);
     }
 }

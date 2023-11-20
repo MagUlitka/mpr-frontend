@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,4 +18,12 @@ public interface StudentRepository extends CrudRepository<Student, UUID> {
 
     @Query("select max(s.index) from Student s")
     Optional<Long> getMaxIndex();
+
+   // @Query("select s from Student s where s.name = :name and s.unit = com.example.mprprojectmvn.data.StudentUnit.GDANSK")
+    List<Student> getByNameAndUnit(String name,StudentUnit unit);
+    default  List<Student> getFromGdanskByName(String name) {
+        return getByNameAndUnit(name,StudentUnit.GDANSK);
+    }
+
+    List<Student> getAllByName(String name);
 }

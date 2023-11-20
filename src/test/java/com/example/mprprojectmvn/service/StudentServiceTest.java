@@ -66,8 +66,8 @@ class StudentServiceTest {
        var savedStudent = studentService.saveStudent(student);
 
         //then
-        assertEquals(student.name(),savedStudent.name());
-        assertEquals(student.unit(),savedStudent.unit());
+        assertEquals(student.name(),savedStudent.getName());
+        assertEquals(student.unit(),savedStudent.getUnit());
 //        verify(studentRepository,times(1)).saveStudent(any());
     }
 

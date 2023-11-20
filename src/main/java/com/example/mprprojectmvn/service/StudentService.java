@@ -1,9 +1,9 @@
 package com.example.mprprojectmvn.service;
 
 import com.example.mprprojectmvn.data.Student;
-import com.example.mprprojectmvn.data.StudentDataComponent;
 import com.example.mprprojectmvn.data.StudentRepository;
 import com.example.mprprojectmvn.data.StudentUnit;
+import com.example.mprprojectmvn.exceptionhandler.InvalidStudentNameException;
 import com.example.mprprojectmvn.exceptionhandler.RecordNotFoundException;
 import com.example.mprprojectmvn.resource.CreateStudent;
 import com.example.mprprojectmvn.resource.StudentDto;
@@ -11,7 +11,7 @@ import com.example.mprprojectmvn.resource.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.net.CacheRequest;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -33,7 +33,11 @@ public class StudentService {
     }
 
     public void deleteByName(String name){
-        studentRepository.deleteByName(name);
+        var studentByName = studentRepository.getAllByName(name);
+        if(studentByName.isEmpty()){
+            throw new InvalidStudentNameException("Student with name=" + name + " does not exist.");
+        }
+        studentRepository.deleteAll(studentByName);
     }
 
     private Long createIndex(StudentUnit unit) {
@@ -44,5 +48,9 @@ public class StudentService {
         else {
             return 10 * maxIndex;
         }
+    }
+
+    public List<StudentDto> getStudentByName(String name) {
+        return studentRepository.getFromGdanskByName(name).stream().map(studentMapper::toDto).toList();
     }
 }

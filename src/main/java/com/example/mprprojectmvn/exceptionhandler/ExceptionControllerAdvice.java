@@ -22,4 +22,9 @@ public class ExceptionControllerAdvice {
 //                .body(new ErrorResponse(UUID.randomUUID(), Instant.now(),e.getMessage()));
         return new ErrorResponse(UUID.randomUUID(), Instant.now(), e.getMessage());
     }
+
+    @ExceptionHandler(InvalidStudentNameException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequestResponse(RuntimeException e){
+        return ResponseEntity.badRequest().body(new ErrorResponse(UUID.randomUUID(), Instant.now(), e.getMessage()));
+    }
 }
