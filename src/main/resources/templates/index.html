@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmls:th="http://www.thymeleaf.org" xmlns:xmls="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+Hello <p th:if="${name} != null" th:text="${name}"/></p>
+<p th:unless="${name} != null">World</p>
+<table>
+    <tbody>
+    <tr th:each="student: ${students}">
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.unit}"></td>
+        <td th:text="${student.index}"></td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/student-page/add}">Dodaj Studenta</a>
+</body>
+</html>
