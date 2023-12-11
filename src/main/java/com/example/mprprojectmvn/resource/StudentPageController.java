@@ -26,13 +26,15 @@ public class StudentPageController {
         return "index";
     }
     @GetMapping("/add")
-    public String displayAddStudentPage() {
+    public String displayAddStudentPage(Model model) {
+        model.addAttribute("student", new AddStudent());
+
         return "addStudent";
     }
 
     @PostMapping
-    public String  saveStudent(@ModelAttribute CreateStudent createStudent){
-        studentService.saveStudent(createStudent);
+    public String  saveStudent(@ModelAttribute AddStudent addStudent){
+        studentService.saveStudent(new CreateStudent(addStudent.getName(), addStudent.getUnit()));
         return "redirect:/students-page";
     }
 }

@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
+<p data-test="hello-message" th:text="'Hello ' + ${name != null ? name : 'World'}"/>
 Hello <p th:if="${name} != null" th:text="${name}"/></p>
 <p th:unless="${name} != null">World</p>
 <table>
@@ -17,6 +18,8 @@ Hello <p th:if="${name} != null" th:text="${name}"/></p>
     </tr>
     </tbody>
 </table>
-<a th:href="@{/student-page/add}">Dodaj Studenta</a>
+<a th:href="@{/students-page/add}">Dodaj Studenta</a>
 </body>
+<footer th:insert="footer.html">
+</footer>
 </html>

@@ -10,9 +10,16 @@
     <input th:field="*{name}"/>
     </label>
     <label>Unit
-        <input th:field="*{unit}"/>
+        <select th:field="*{unit}">
+            <option th:each="unit : ${T(com.example.mprprojectmvn.data.StudentUnit).values()}"
+                    th:value="${unit}" th:text="${unit}">
+
+            </option>
+        </select>
     </label>
     <button type="submit">Dodaj</button>
 </form>
 </body>
+<footer th:insert="footer.html">
+</footer>
 </html>
