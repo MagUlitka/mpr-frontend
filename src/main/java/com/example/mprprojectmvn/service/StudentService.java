@@ -9,27 +9,52 @@ import com.example.mprprojectmvn.resource.CreateStudent;
 import com.example.mprprojectmvn.resource.StudentDto;
 import com.example.mprprojectmvn.resource.StudentMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
+@Log
 @Service
 @RequiredArgsConstructor
 public class StudentService {
 
+    private static final String API_URL = "http://localhost:8080/students";
+
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
 
-    public Student saveStudent(CreateStudent createStudent){
-        var toSave = studentMapper.toEntity(createStudent);
-        var index = createIndex(createStudent.unit());
-        toSave.setIndex(index);
-        studentRepository.save(toSave);
-        return toSave;
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final WebClient webClient = WebClient.builder()
+            .baseUrl(API_URL)
+            .build();
+
+
+    public void saveStudent(CreateStudent createStudent){
+//        restTemplate.exchange(URI.create(API_URL), HttpMethod.POST,
+//                new HttpEntity<>(createStudent), Void.class);
+        webClient.post()
+                .body(Mono.just(createStudent), CreateStudent.class)
+                .retrieve().toEntityFlux(StudentDto.class).subscribe((entity) -> log.info("Received status " + entity.getStatusCode()));
     }
     public StudentDto getStudentById(UUID id){
-        return studentRepository.findById(id).map(studentMapper::toDto).orElseThrow(() -> new RecordNotFoundException("Student with id " + id + " not found."));
+        try {
+            return restTemplate.getForObject(API_URL + "/" + id, StudentDto.class);
+        } catch (HttpClientErrorException e){
+            throw new RecordNotFoundException("just to check error handling");
+        }
+        catch (HttpServerErrorException e){
+            throw new RuntimeException();
+        }
     }
 
     public void deleteByName(String name){
@@ -51,6 +76,16 @@ public class StudentService {
     }
 
     public List<StudentDto> getStudentByName(String name) {
-        return studentRepository.getFromGdanskByName(name).stream().map(studentMapper::toDto).toList();
+        var responseEntity = webClient.get().uri(uriBuilder -> uriBuilder.queryParam("name",name).build())
+                .retrieve()
+                .toEntityFlux(StudentDto.class)
+                .block();
+        if(responseEntity.getStatusCode().is2xxSuccessful()){
+            return responseEntity.getBody().toStream().toList();
+        }
+        else if (responseEntity.getStatusCode().is4xxClientError()){
+            throw new RecordNotFoundException("just to check error handling");
+        }
+        throw new RuntimeException();
     }
 }
