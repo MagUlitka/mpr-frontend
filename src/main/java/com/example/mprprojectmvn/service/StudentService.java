@@ -37,24 +37,28 @@ public class StudentService {
     private final WebClient webClient = WebClient.builder()
             .baseUrl(API_URL)
             .build();
+    private final StudentsFeignClient feignClient;
 
 
     public void saveStudent(CreateStudent createStudent){
 //        restTemplate.exchange(URI.create(API_URL), HttpMethod.POST,
 //                new HttpEntity<>(createStudent), Void.class);
-        webClient.post()
-                .body(Mono.just(createStudent), CreateStudent.class)
-                .retrieve().toEntityFlux(StudentDto.class).subscribe((entity) -> log.info("Received status " + entity.getStatusCode()));
+//        webClient.post()
+//                .body(Mono.just(createStudent), CreateStudent.class)
+//                .retrieve().toEntityFlux(StudentDto.class).subscribe((entity) -> log.info("Received status " + entity.getStatusCode()));
+        feignClient.saveStudents(createStudent);
     }
+
     public StudentDto getStudentById(UUID id){
-        try {
-            return restTemplate.getForObject(API_URL + "/" + id, StudentDto.class);
-        } catch (HttpClientErrorException e){
-            throw new RecordNotFoundException("just to check error handling");
-        }
-        catch (HttpServerErrorException e){
-            throw new RuntimeException();
-        }
+//        try {
+//            return restTemplate.getForObject(API_URL + "/" + id, StudentDto.class);
+//        } catch (HttpClientErrorException e){
+//            throw new RecordNotFoundException("just to check error handling");
+//        }
+//        catch (HttpServerErrorException e){
+//            throw new RuntimeException();
+//        }
+       return feignClient.getStudentById(id);
     }
 
     public void deleteByName(String name){

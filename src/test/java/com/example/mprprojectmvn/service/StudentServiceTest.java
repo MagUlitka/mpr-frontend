@@ -33,7 +33,7 @@ class StudentServiceTest {
 
     @BeforeEach
     void setUp(){
-        studentService = new StudentService(studentRepository,studentMapper);
+        //studentService = new StudentService(studentRepository,studentMapper);
     }
 
     @BeforeAll
