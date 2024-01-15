@@ -21,10 +21,25 @@ public class Student {
         this.unit = unit;
     }
 
+    public Student(String name, String surname, StudyCourseType studyCourseType, StudentUnit unit, Long index) {
+        this.name = name;
+        this.surname = surname;
+        this.studyCourseType = studyCourseType;
+        this.unit = unit;
+        this.index = index;
+    }
+
     @Id
     @GeneratedValue
     private UUID id;
+    @Setter
     private String name;
+    @Setter
+    private String surname;
+    @Setter
+    @Enumerated(EnumType.STRING)
+    private StudyCourseType studyCourseType;
+    @Setter
     @Enumerated(EnumType.STRING)
     private StudentUnit unit;
     @Setter

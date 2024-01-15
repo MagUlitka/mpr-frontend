@@ -3,12 +3,15 @@ package com.example.mprprojectmvn.service;
 import com.example.mprprojectmvn.data.Student;
 import com.example.mprprojectmvn.data.StudentRepository;
 import com.example.mprprojectmvn.data.StudentUnit;
+import com.example.mprprojectmvn.data.StudyCourseType;
 import com.example.mprprojectmvn.exceptionhandler.InvalidStudentNameException;
 import com.example.mprprojectmvn.exceptionhandler.RecordNotFoundException;
 import com.example.mprprojectmvn.resource.CreateStudent;
 import com.example.mprprojectmvn.resource.StudentDto;
+import com.example.mprprojectmvn.resource.StudentDtoMapper;
 import com.example.mprprojectmvn.resource.StudentMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +23,7 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
+    //private final StudentDtoMapper studentDtoMapper;
 
     public Student saveStudent(CreateStudent createStudent){
         var toSave = studentMapper.toEntity(createStudent);
@@ -52,5 +56,17 @@ public class StudentService {
 
     public List<StudentDto> getStudentByName(String name) {
         return studentRepository.getFromGdanskByName(name).stream().map(studentMapper::toDto).toList();
+    }
+
+    public List<StudentDto> getStudentsBySurname(String surname){
+        return studentRepository.getStudentsBySurname(surname).stream().map(studentMapper::toDto).toList();
+    }
+    public List<StudentDto> getStudentsByStudyCourseType(StudyCourseType studyCourseType){
+        return studentRepository.getStudentsByStudyCourseType(studyCourseType).stream().map(studentMapper::toDto).toList();
+    }
+    public Student updateStudentById(StudentDto studentDto, UUID id){
+        Student toUpdate = studentRepository.findById(studentDto.id()).orElseThrow(() -> new RecordNotFoundException("There's no such student in the database"));
+        studentMapper.updateStudentDtotoEntity(studentDto,toUpdate);
+        return studentRepository.save(toUpdate);
     }
 }

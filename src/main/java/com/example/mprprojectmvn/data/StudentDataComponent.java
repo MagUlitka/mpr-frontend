@@ -9,12 +9,11 @@ import java.util.UUID;
 
 @Service
 public class StudentDataComponent {
-
+    private final List<Student> students = new ArrayList<>();
     public StudentDataComponent() {
-        var student = new Student(UUID.fromString("6f16f034-de79-47ad-b05f-77ec29b7a453"),"Magdalena", StudentUnit.GDANSK, 3L);
+        var student = new Student(UUID.fromString("6f16f034-de79-47ad-b05f-77ec29b7a453"),"Magdalena","C", StudyCourseType.COMPUTER_SCIENCE, StudentUnit.GDANSK, 1L);
         students.add(student);
     }
-    private final List<Student> students = new ArrayList<>();
 
     public void saveStudent(Student student){
         students.add(student);

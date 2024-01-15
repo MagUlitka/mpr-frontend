@@ -18,12 +18,19 @@ public interface StudentRepository extends CrudRepository<Student, UUID> {
 
     @Query("select max(s.index) from Student s")
     Optional<Long> getMaxIndex();
-
+/** todo dlaczego tutaj deklarujemy metody dla Studentów, a w implementacji w StudentService metody zwracają obiekty dto?
+ * w sensie, rozumiem że dto tworzy się ze względów bezpieczeństwa, natomiast dlaczego wtedy tutaj nie deklarujemy metod jako list obiektów StudentDto?
+ **/
    // @Query("select s from Student s where s.name = :name and s.unit = com.example.mprprojectmvn.data.StudentUnit.GDANSK")
     List<Student> getByNameAndUnit(String name,StudentUnit unit);
+    List<Student> getStudentsBySurname(String surname);
+    List<Student> getStudentsByStudyCourseType(StudyCourseType studyCourseType);
     default  List<Student> getFromGdanskByName(String name) {
         return getByNameAndUnit(name,StudentUnit.GDANSK);
     }
 
     List<Student> getAllByName(String name);
+
+
+
 }

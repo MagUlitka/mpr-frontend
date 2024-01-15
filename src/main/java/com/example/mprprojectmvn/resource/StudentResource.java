@@ -1,6 +1,7 @@
 package com.example.mprprojectmvn.resource;
 
 import com.example.mprprojectmvn.data.Student;
+import com.example.mprprojectmvn.data.StudyCourseType;
 import com.example.mprprojectmvn.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,12 @@ public class StudentResource {
     public void saveStudents(@Validated @RequestBody CreateStudent createStudent){
         studentService.saveStudent(createStudent);
     }
+
+    @PostMapping("/update/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Student updateStudentById(@Validated @RequestBody StudentDto studentDto, @PathVariable UUID id){
+        return studentService.updateStudentById(studentDto,id);
+    }
     @GetMapping("/{id}")
     public StudentDto getStudentById(@PathVariable UUID id){
         return studentService.getStudentById(id);
@@ -33,8 +40,18 @@ public class StudentResource {
         studentService.deleteByName(name);
     }
 
-    @GetMapping
-    public List<StudentDto> getStudentByName(@RequestParam String name){
+    @GetMapping("/show/{name}")
+    public List<StudentDto> getStudentByName(@PathVariable String name){
         return studentService.getStudentByName(name);
+    }
+
+    @GetMapping("/surname")
+    public List<StudentDto> getStudentBySurname(@RequestParam String surname){
+        return studentService.getStudentsBySurname(surname);
+    }
+
+    @GetMapping("/studyCourseType")
+    public List<StudentDto> getStudentByStudyCourseType(@RequestParam StudyCourseType studyCourseType){
+        return studentService.getStudentsByStudyCourseType(studyCourseType);
     }
 }

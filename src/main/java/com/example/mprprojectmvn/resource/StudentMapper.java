@@ -2,15 +2,26 @@ package com.example.mprprojectmvn.resource;
 
 import com.example.mprprojectmvn.data.Student;
 import com.example.mprprojectmvn.data.StudentUnit;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StudentMapper {
+public class StudentMapper implements StudentDtoMapper{
 
     public StudentDto toDto(Student student){
-        return new StudentDto(student.getId(),student.getName(),student.getUnit(),student.getIndex());
+        return new StudentDto(student.getId(),student.getName(),student.getSurname(), student.getStudyCourseType(), student.getUnit(),student.getIndex());
     }
     public Student toEntity(CreateStudent createStudent){
         return new Student(createStudent.name(), createStudent.unit());
     }
+    public void updateStudentDtotoEntity(StudentDto studentDto, Student student) {
+
+    }
+
+
+//    public Student dtoToEntity(StudentDto studentDto){
+//        return new Student(studentDto.id(),studentDto.name(),studentDto.surname(),studentDto.studyCourseType(), studentDto.unit(), studentDto.index());
+//    }
 }
