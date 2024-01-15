@@ -36,7 +36,7 @@ public class StudentService {
     private final WebClient webClient = WebClient.builder()
             .baseUrl(API_URL)
             .build();
-    private final StudentsFeignClient feignClient;
+   // private final StudentsFeignClient feignClient;
 
     public Student saveStudent(CreateStudent createStudent){
         var toSave = studentMapper.toEntity(createStudent);
