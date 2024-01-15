@@ -2,16 +2,14 @@ package com.example.mprprojectmvn.resource;
 
 import com.example.mprprojectmvn.data.Student;
 import com.example.mprprojectmvn.data.StudentRepository;
-import com.example.mprprojectmvn.data.StudentUnit;
-import com.example.mprprojectmvn.data.StudyCourseType;
+import com.example.mprprojectmvn.exceptionhandler.RecordNotFoundException;
 import com.example.mprprojectmvn.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Controller
@@ -21,24 +19,37 @@ public class StudentPageController {
     private final StudentRepository studentRepository;
     private final StudentService studentService;
     @GetMapping
-    public String returnStudentsPage(Model model, String name, String surname, StudyCourseType studyCourseType, StudentUnit studentUnit) {
+    public String returnStudentsPage(Model model, String name) {
         model.addAttribute("name", name);
-        model.addAttribute("surname", surname);
-        model.addAttribute("studyCourseType", studyCourseType);
-        model.addAttribute("unit", studentUnit);
         var students = studentRepository.findAll();
         model.addAttribute("students", students);
         return "index";
     }
     @GetMapping("/add")
     public String displayAddStudentPage(Model model) {
-        model.addAttribute("student", new AddStudent());
+        model.addAttribute("student", new CreateStudent());
         return "addStudent";
     }
 
+    @GetMapping("/update/{id}")
+    public String displayUpdateStudentPage(Model model, @PathVariable UUID id) {
+        Student studentToUpdate = studentRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("Invalid id"));
+        //AddStudent studentToAdd = new AddStudent(studentToUpdate.getId(),studentToUpdate.getName(), studentToUpdate.getSurname(), studentToUpdate.getStudyCourseType(),studentToUpdate.getUnit());
+        model.addAttribute("updateStudent", studentToUpdate);
+        return "updateStudent";
+    }
+    //todo DLACZEGO saveStudent zwraca index 0???
     @PostMapping
-    public String saveStudent(@ModelAttribute AddStudent addStudent){
-        studentService.saveStudent(new CreateStudent(addStudent.getName(), addStudent.getSurname(), addStudent.getStudyCourseType(), addStudent.getUnit()));
+    public String saveStudent(@ModelAttribute CreateStudent createStudent){
+        studentService.saveStudent(createStudent);
         return "redirect:/students-page";
     }
+
+    @PostMapping("/update")
+    public String updateStudent(@ModelAttribute("updateStudent") StudentDto updateStudent, @RequestParam UUID id){
+        studentService.updateStudentById(updateStudent);
+        return "redirect:/students-page";
+    }
+
+
 }

@@ -4,15 +4,10 @@ import com.example.mprprojectmvn.data.*;
 import com.example.mprprojectmvn.exceptionhandler.RecordNotFoundException;
 import com.example.mprprojectmvn.resource.CreateStudent;
 import com.example.mprprojectmvn.resource.StudentDto;
-import com.example.mprprojectmvn.resource.StudentDtoMapper;
 import com.example.mprprojectmvn.resource.StudentMapper;
-import jakarta.persistence.GeneratedValue;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
@@ -68,8 +63,8 @@ class StudentServiceTest {
        var savedStudent = studentService.saveStudent(student);
 
         //then
-        assertEquals(student.name(),savedStudent.getName());
-        assertEquals(student.unit(),savedStudent.getUnit());
+        assertEquals(student.getName(),savedStudent.getName());
+        assertEquals(student.getUnit(),savedStudent.getUnit());
 //        verify(studentRepository,times(1)).saveStudent(any());
     }
 
@@ -132,10 +127,10 @@ class StudentServiceTest {
         StudentDto updatedStudentDto = new StudentDto(existingStudent.getId(),"Magdalena","C", StudyCourseType.COMPUTER_SCIENCE,StudentUnit.GDANSK, 5L);
 
         when(studentRepository.findById(eq(existingStudent.getId()))).thenReturn(Optional.of(existingStudent));
-        studentMapper.updateStudentDtotoEntity(updatedStudentDto, existingStudent);
+        studentMapper.studentDtoToEntity(updatedStudentDto);
         when(studentRepository.save(eq(existingStudent))).thenReturn(existingStudent);
 
-        Student updatedStudent = studentService.updateStudentById(updatedStudentDto, existingStudent.getId());
+        Student updatedStudent = studentService.updateStudentById(updatedStudentDto);
 
         assertEquals(existingStudent, updatedStudent);
         verify(studentRepository, times(1)).findById(eq(existingStudent.getId()));
@@ -150,7 +145,7 @@ class StudentServiceTest {
         when(studentRepository.findById(eq(updatedStudentDto.id()))).thenReturn(Optional.empty());
 
         RecordNotFoundException exception = assertThrows(RecordNotFoundException.class, () -> {
-            studentService.updateStudentById(updatedStudentDto, updatedStudentDto.id());
+            studentService.updateStudentById(updatedStudentDto);
         });
 
         assertEquals("There's no such student in the database", exception.getMessage());

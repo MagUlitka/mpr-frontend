@@ -5,7 +5,6 @@ import com.example.mprprojectmvn.data.StudyCourseType;
 import com.example.mprprojectmvn.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +25,7 @@ public class StudentResource {
     @PostMapping("/update/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Student updateStudentById(@Validated @RequestBody StudentDto studentDto, @PathVariable UUID id){
-        return studentService.updateStudentById(studentDto,id);
+        return studentService.updateStudentById(studentDto);
     }
     @GetMapping("/{id}")
     public StudentDto getStudentById(@PathVariable UUID id){

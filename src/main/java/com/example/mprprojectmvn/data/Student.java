@@ -29,6 +29,13 @@ public class Student {
         this.index = index;
     }
 
+    public Student(String name, String surname, StudyCourseType studyCourseType, StudentUnit unit) {
+        this.name = name;
+        this.surname = surname;
+        this.studyCourseType = studyCourseType;
+        this.unit = unit;
+    }
+
     @Id
     @GeneratedValue
     private UUID id;

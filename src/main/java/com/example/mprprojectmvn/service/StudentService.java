@@ -8,10 +8,8 @@ import com.example.mprprojectmvn.exceptionhandler.InvalidStudentNameException;
 import com.example.mprprojectmvn.exceptionhandler.RecordNotFoundException;
 import com.example.mprprojectmvn.resource.CreateStudent;
 import com.example.mprprojectmvn.resource.StudentDto;
-import com.example.mprprojectmvn.resource.StudentDtoMapper;
 import com.example.mprprojectmvn.resource.StudentMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,11 +21,10 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
-    //private final StudentDtoMapper studentDtoMapper;
 
     public Student saveStudent(CreateStudent createStudent){
         var toSave = studentMapper.toEntity(createStudent);
-        var index = createIndex(createStudent.unit());
+        var index = createIndex(createStudent.getUnit());
         toSave.setIndex(index);
         studentRepository.save(toSave);
         return toSave;
@@ -64,9 +61,9 @@ public class StudentService {
     public List<StudentDto> getStudentsByStudyCourseType(StudyCourseType studyCourseType){
         return studentRepository.getStudentsByStudyCourseType(studyCourseType).stream().map(studentMapper::toDto).toList();
     }
-    public Student updateStudentById(StudentDto studentDto, UUID id){
+    public Student updateStudentById(StudentDto studentDto){
         Student toUpdate = studentRepository.findById(studentDto.id()).orElseThrow(() -> new RecordNotFoundException("There's no such student in the database"));
-        studentMapper.updateStudentDtotoEntity(studentDto,toUpdate);
+        studentMapper.studentDtoToEntity(studentDto);
         return studentRepository.save(toUpdate);
     }
 }
