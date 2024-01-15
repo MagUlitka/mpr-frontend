@@ -2,31 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dodaj studenta</title>
+    <title>Edytuj studenta</title>
 </head>
 <body>
-<form method="POST" th:action="@{/students-page}" th:object="${student}">
+<form method="POST" th:object="${updateStudent}" th:action="@{/students-page/update(id=${updateStudent.id})}">
     <label>Name
-    <input th:field="*{name}"/>
+        <input th:field="*{name}" name="name"/>
     </label>
     <label>Surname
-        <input th:field="*{surname}"/>
+        <input th:field="*{surname}" name="surname"/>
     </label>
     <label>studyCourseType
-        <select th:field="*{studyCourseType}">
+        <select th:field="*{studyCourseType}" name="studyCourseType">
             <option th:each="studyCourseType : ${T(com.example.mprprojectmvn.data.StudyCourseType).values()}"
                     th:value="${studyCourseType}" th:text="${studyCourseType}">
             </option>
         </select>
     </label>
     <label>Unit
-        <select th:field="*{unit}">
+        <select th:field="*{unit}" name="unit">
             <option th:each="unit : ${T(com.example.mprprojectmvn.data.StudentUnit).values()}"
                     th:value="${unit}" th:text="${unit}">
             </option>
         </select>
     </label>
-    <button type="submit" value="student">Dodaj</button>
+    <button type="submit" value="updateStudent">Aktualizuj</button>
 </form>
 </body>
 <footer th:insert="footer.html">

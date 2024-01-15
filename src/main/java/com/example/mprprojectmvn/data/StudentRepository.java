@@ -21,9 +21,12 @@ public interface StudentRepository extends CrudRepository<Student, UUID> {
 
    // @Query("select s from Student s where s.name = :name and s.unit = com.example.mprprojectmvn.data.StudentUnit.GDANSK")
     List<Student> getByNameAndUnit(String name,StudentUnit unit);
+    List<Student> getStudentsBySurname(String surname);
+    List<Student> getStudentsByStudyCourseType(StudyCourseType studyCourseType);
     default  List<Student> getFromGdanskByName(String name) {
         return getByNameAndUnit(name,StudentUnit.GDANSK);
     }
 
     List<Student> getAllByName(String name);
+
 }

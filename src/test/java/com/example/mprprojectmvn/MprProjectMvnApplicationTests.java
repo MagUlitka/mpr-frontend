@@ -104,4 +104,10 @@ class MprProjectMvnApplicationTests {
 		mockMvc.perform(delete("/students?name=hhhh"))
 				.andExpect(status().isBadRequest());
 	}
+
+	@SneakyThrows
+	@Test
+	void givenStudentsWithDifferentSurname_whenGetBySurname_thenReturnStudent() {
+
+	}
 }
