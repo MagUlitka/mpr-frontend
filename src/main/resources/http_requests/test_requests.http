@@ -1,0 +1,24 @@
+###wyswietl strone###
+GET http://localhost:8081/students-page
+
+###pokaz studenta po id###
+GET http://localhost:8081/students-page/{{id}}
+
+###pokaz studentow o podanym imieniu###
+GET http://localhost:8081/students-page/name/{{name}}
+
+###pokaz studentow o podanym nazwisku###
+GET http://localhost:8081/students-page/surname/{{surname}}
+
+###pokaz studentow o obranym kierunku studiow###
+GET http://localhost:8081/students-page/studyCourseType/{{studyCourseType}}
+
+###wyswietl strone dodania studenta###
+GET http://localhost:8081/students-page/add
+
+###dodaj studenta###
+POST http://localhost:8081/students-page
+Content-Type: application/x-www-form-urlencoded
+
+###zrob update studenta###
+POST http://localhost:8081/students-page/update

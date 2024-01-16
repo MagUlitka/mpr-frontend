@@ -5,9 +5,6 @@ import com.example.mprprojectmvn.data.StudentRepository;
 import com.example.mprprojectmvn.data.StudentUnit;
 import com.example.mprprojectmvn.data.StudyCourseType;
 import com.example.mprprojectmvn.resource.CreateStudent;
-import io.restassured.RestAssured;
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,7 +52,7 @@ public class StudentResourceRestAssuredTest {
     @Test
     void givenStudentDataWhenCreateStudentThenRespondIsCreated(){
         given().contentType(MediaType.APPLICATION_JSON)
-                .body(new CreateStudent("Karola", "A", StudyCourseType.NEW_MEDIA_ART, StudentUnit.GDANSK,1L))
+                .body(new CreateStudent("Karola", "A", StudyCourseType.NEW_MEDIA_ART, StudentUnit.GDANSK))
                 .when()
                 .post("/students")
                 .then()

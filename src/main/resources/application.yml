@@ -5,10 +5,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/student
     username: student
     password: student
-  jpa:
-    hibernate:
-      ddl-auto: none
-    show-sql: true
 server:
   port: 8081
 logging:

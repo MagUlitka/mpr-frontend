@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmls:th="http://www.thymeleaf.org" xmlns:xmls="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<table>
+    <tbody>
+    <tr th:each="student: ${students}">
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.surname}"></td>
+        <td th:text="${student.studyCourseType}"></td>
+        <td th:text="${student.unit}"></td>
+        <td th:text="${student.index}"></td>
+        <td><a th:href="@{/students-page/update/{id}(id=${student.id})}">Edytuj Studenta</a></td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/students-page}">Powrót na stronę główną</a>
+</body>
+<footer th:insert="footer.html">
+</footer>
+</html>
