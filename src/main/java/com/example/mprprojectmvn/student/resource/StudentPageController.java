@@ -1,16 +1,14 @@
-package com.example.mprprojectmvn.resource;
+package com.example.mprprojectmvn.student.resource;
 
 
 
-import com.example.mprprojectmvn.data.Student;
-import com.example.mprprojectmvn.data.StudyCourseType;
-import com.example.mprprojectmvn.service.StudentService;
+import com.example.mprprojectmvn.course.service.CourseService;
+import com.example.mprprojectmvn.student.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -19,6 +17,7 @@ import java.util.UUID;
 public class StudentPageController {
 
     private final StudentService studentService;
+    private final CourseService courseService;
     @GetMapping
     public String returnStudentsPage(Model model, String name) {
         model.addAttribute("name", name);
@@ -48,30 +47,32 @@ public class StudentPageController {
         return "getStudentsBySurname";
     }
 
-    @GetMapping("/studyCourseType/{studyCourseType}")
-    public String displayGetStudentsByStudyCourseType(Model model, @PathVariable StudyCourseType studyCourseType){
-        var students = studentService.getStudentsByStudyCourseType(studyCourseType);
+    @GetMapping("/courseName/{courseName}")
+    public String displayGetStudentsByCourseName(Model model, @PathVariable String courseName){
+        var students = studentService.getStudentsByCourseName(courseName);
         model.addAttribute("students", students);
-        model.addAttribute("student",studentService.getStudentsByStudyCourseType(studyCourseType));
-        return "getStudentsByStudyCourseType";
+        model.addAttribute("student",studentService.getStudentsByCourseName(courseName));
+        return "getStudentsByCourseName";
     }
     @GetMapping("/add")
     public String displayAddStudentPage(Model model) {
         model.addAttribute("student", new CreateStudent());
+        model.addAttribute("courses", courseService.getAll());
         return "addStudent";
     }
 
     @GetMapping("/update/{id}")
     public String displayUpdateStudentPage(Model model, @PathVariable UUID id) {
         StudentDto studentToUpdate = studentService.getStudentById(id);
-        Student updatedStudent = studentService.updateStudentById(studentToUpdate,id);
+        StudentDto updatedStudent = studentService.updateStudentById(studentToUpdate,id);
         model.addAttribute("updateStudent", updatedStudent);
+        model.addAttribute("courses", courseService.getAll());
         return "updateStudent";
     }
 
     @PostMapping
     public String saveStudent(@ModelAttribute CreateStudent createStudent){
-      CreateStudent newStudent = new CreateStudent(createStudent.getName(), createStudent.getSurname(), createStudent.getStudyCourseType(), createStudent.getUnit());
+      CreateStudent newStudent = new CreateStudent(createStudent.getName(), createStudent.getSurname(), createStudent.getCourseName(), createStudent.getUnit());
         studentService.saveStudent(newStudent);
         return "redirect:/students-page";
     }

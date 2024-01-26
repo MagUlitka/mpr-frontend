@@ -12,16 +12,16 @@
     <label>Surname
         <input th:field="*{surname}" name="surname"/>
     </label>
-    <label>studyCourseType
-        <select th:field="*{studyCourseType}" name="studyCourseType">
-            <option th:each="studyCourseType : ${T(com.example.mprprojectmvn.data.StudyCourseType).values()}"
-                    th:value="${studyCourseType}" th:text="${studyCourseType}">
+    <label>CourseName
+        <select th:field="*{courseName}" name="courseName">
+            <option th:each="course : ${courses}"
+                    th:value="${course.courseName}" th:text="${course.courseName}">
             </option>
         </select>
     </label>
     <label>Unit
         <select th:field="*{unit}" name="unit">
-            <option th:each="unit : ${T(com.example.mprprojectmvn.data.StudentUnit).values()}"
+            <option th:each="unit : ${T(com.example.mprprojectmvn.student.data.StudentUnit).values()}"
                     th:value="${unit}" th:text="${unit}">
             </option>
         </select>

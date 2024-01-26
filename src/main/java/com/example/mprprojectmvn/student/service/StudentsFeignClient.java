@@ -1,9 +1,7 @@
-package com.example.mprprojectmvn.service;
+package com.example.mprprojectmvn.student.service;
 
-import com.example.mprprojectmvn.data.Student;
-import com.example.mprprojectmvn.data.StudyCourseType;
-import com.example.mprprojectmvn.resource.CreateStudent;
-import com.example.mprprojectmvn.resource.StudentDto;
+import com.example.mprprojectmvn.student.resource.CreateStudent;
+import com.example.mprprojectmvn.student.resource.StudentDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
@@ -17,21 +15,27 @@ import java.util.UUID;
 public interface StudentsFeignClient {
 
     @GetMapping
-    List<Student> getAll();
+    List<StudentDto> getAll();
+
     @PostMapping
     void saveStudents(@Validated @RequestBody CreateStudent createStudent);
+
     @GetMapping("/{id}")
     StudentDto getStudentById(@PathVariable UUID id);
+
     @PostMapping("/update/{id}")
-    Student updateStudentById(@Validated @RequestBody StudentDto studentDto, @PathVariable UUID id);
+    StudentDto updateStudentById(@Validated @RequestBody StudentDto studentDto, @PathVariable UUID id);
+
     @DeleteMapping
     void deleteByName(String name);
+
     @GetMapping("/name/{name}")
     List<StudentDto> getStudentsByName(@PathVariable String name);
 
     @GetMapping("/surname/{surname}")
     List<StudentDto> getStudentsBySurname(@PathVariable String surname);
 
-    @GetMapping("/studyCourseType/{studyCourseType}")
-    List<StudentDto> getStudentsByStudyCourseType(@PathVariable StudyCourseType studyCourseType);
+    @GetMapping("/courseName/{courseName}")
+    List<StudentDto> getStudentsByCourseName(@PathVariable String courseName);
+
 }

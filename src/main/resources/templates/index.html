@@ -14,7 +14,7 @@ Hello <p th:if="${name} != null" th:text="${name}"/></p>
     <tr th:each="student: ${students}">
         <td th:text="${student.name}"></td>
         <td th:text="${student.surname}"></td>
-        <td th:text="${student.studyCourseType}"></td>
+        <td th:text="${student.courseName}"></td>
         <td th:text="${student.unit}"></td>
         <td th:text="${student.index}"></td>
         <td><a th:href="@{/students-page/update/{id}(id=${student.id})}">Edytuj Studenta</a></td>
@@ -22,6 +22,8 @@ Hello <p th:if="${name} != null" th:text="${name}"/></p>
     </tbody>
 </table>
 <a th:href="@{/students-page/add}">Dodaj Studenta</a>
+<br>
+<a th:href="@{/courses-page}">Przegladaj kursy</a>
 </body>
 <footer th:insert="footer.html">
 </footer>

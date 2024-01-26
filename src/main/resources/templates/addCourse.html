@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj kurs</title>
+</head>
+<body>
+<form method="POST" th:action="@{/courses-page}" th:object="${course}">
+    <label>Name
+        <input th:field="*{courseName}"/>
+    </label>
+    <label>Teacher name
+        <input th:field="*{teacherName}">
+    </label>
+    <button type="submit" value="course">Dodaj</button>
+</form>
+</body>
+<footer th:insert="footer.html">
+</footer>
+</html>

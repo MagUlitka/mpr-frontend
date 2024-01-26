@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmls:th="http://www.thymeleaf.org" xmlns:xmls="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<table>
+    <tbody>
+    <tr th:each="course: ${courses}">
+        <td th:text="${course.courseName}"></td>
+        <td th:text="${course.totalStudentsCount}"></td>
+        <td th:each="attendingStudents: ${course.attendingStudents}" th:text="'['+ ${attendingStudents.name} + ' ' + ${attendingStudents.surname} + ']'"></td>
+        <td th:text="${course.teacherName}"></td>
+        <td><a th:href="@{/courses-page/update/{id}(id=${course.courseId})}">Edytuj Kurs</a></td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/courses-page/add}">Dodaj Kurs</a>
+<br>
+<a th:href="@{/students-page}">Powrót na stronę główną</a>
+</body>
+<footer th:insert="footer.html">
+</footer>
+</html>

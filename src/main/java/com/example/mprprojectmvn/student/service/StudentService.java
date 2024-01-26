@@ -1,9 +1,7 @@
-package com.example.mprprojectmvn.service;
+package com.example.mprprojectmvn.student.service;
 
-import com.example.mprprojectmvn.data.Student;
-import com.example.mprprojectmvn.data.StudyCourseType;
-import com.example.mprprojectmvn.resource.CreateStudent;
-import com.example.mprprojectmvn.resource.StudentDto;
+import com.example.mprprojectmvn.student.resource.CreateStudent;
+import com.example.mprprojectmvn.student.resource.StudentDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -20,8 +18,6 @@ public class StudentService{
 
     private static final String API_URL = "http://localhost:8080/students";
 
-   // private final StudentRepository studentRepository;
-
    // private final StudentMapper studentMapper;
    // private final RestTemplate restTemplate = new RestTemplate();
 //    private final WebClient webClient = WebClient.builder()
@@ -30,15 +26,7 @@ public class StudentService{
 
    private final StudentsFeignClient feignClient;
 
-//    public void saveStudent(CreateStudent createStudent){
-//        var toSave = studentMapper.toEntity(createStudent);
-//        var index = createIndex(createStudent.getUnit());
-//        toSave.setIndex(index);
-//        studentRepository.save(toSave);
-//        return toSave;
-//    }
-
-    public List<Student> getAll(){
+    public List<StudentDto> getAll(){
        return feignClient.getAll();
     }
 
@@ -114,7 +102,7 @@ public class StudentService{
 //       // return studentRepository.getStudentsBySurname(surname).stream().map(studentMapper::toDto).toList();
         return feignClient.getStudentsBySurname(surname);
     }
-    public List<StudentDto> getStudentsByStudyCourseType(StudyCourseType studyCourseType){
+    public List<StudentDto> getStudentsByCourseName(String courseName){
 //        var responseEntity = webClient.get().uri(uriBuilder -> uriBuilder.queryParam("studyCourseType", studyCourseType).build())
 //                .retrieve()
 //                .toEntityFlux(StudentDto.class)
@@ -127,10 +115,10 @@ public class StudentService{
 //        }
 //        else throw new RuntimeException();
         //return studentRepository.getStudentsByStudyCourseType(studyCourseType).stream().map(studentMapper::toDto).toList();
-        return feignClient.getStudentsByStudyCourseType(studyCourseType);
+        return feignClient.getStudentsByCourseName(courseName);
     }
 
-    public Student updateStudentById(StudentDto studentDto, UUID id){
+    public StudentDto updateStudentById(StudentDto studentDto, UUID id){
         return feignClient.updateStudentById(studentDto, id);
     }
 }

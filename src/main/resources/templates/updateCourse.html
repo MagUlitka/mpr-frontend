@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edytuj kurs</title>
+</head>
+<body>
+<form method="POST" th:object="${updateCourse}" th:action="@{/courses-page/update(id=${updateCourse.courseId})}">
+    <label>Course Name
+        <input th:field="*{courseName}" name="courseName"/>
+    </label>
+    <label>Teacher Name
+        <input th:field="*{teacherName}" name="teacherName"/>
+    </label>
+    <button type="submit" value="updateCourse">Aktualizuj</button>
+</form>
+</body>
+<footer th:insert="footer.html">
+</footer>
+</html>
