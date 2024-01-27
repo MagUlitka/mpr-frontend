@@ -13,28 +13,20 @@ import java.util.UUID;
 @Component
 @FeignClient(name="studentsClient", url="http://localhost:8080/students")
 public interface StudentsFeignClient {
-
     @GetMapping
     List<StudentDto> getAll();
-
     @PostMapping
     void saveStudents(@Validated @RequestBody CreateStudent createStudent);
-
     @GetMapping("/{id}")
     StudentDto getStudentById(@PathVariable UUID id);
-
     @PostMapping("/update/{id}")
     StudentDto updateStudentById(@Validated @RequestBody StudentDto studentDto, @PathVariable UUID id);
-
     @DeleteMapping
     void deleteByName(String name);
-
     @GetMapping("/name/{name}")
     List<StudentDto> getStudentsByName(@PathVariable String name);
-
     @GetMapping("/surname/{surname}")
     List<StudentDto> getStudentsBySurname(@PathVariable String surname);
-
     @GetMapping("/courseName/{courseName}")
     List<StudentDto> getStudentsByCourseName(@PathVariable String courseName);
 

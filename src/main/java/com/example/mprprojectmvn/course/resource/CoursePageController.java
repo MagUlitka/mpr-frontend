@@ -45,7 +45,6 @@ public class CoursePageController {
     @GetMapping("/update/{id}")
     public String displayUpdateCoursePage(Model model, @PathVariable Integer id) {
         CourseDto courseToUpdate = courseService.getCourseById(id);
-        //CourseDto updatedCourse = courseService.updateCourseById(courseToUpdate,id);
         model.addAttribute("updateCourse", courseToUpdate);
         return "updateCourse";
     }
